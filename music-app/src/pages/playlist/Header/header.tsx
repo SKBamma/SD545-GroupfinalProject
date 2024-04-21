@@ -1,14 +1,17 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+
+import { getMusic } from "../../../apis/services/music.service";
+
 import logo from "../../images/logo.jpeg";
 import "./header.css";
-import axios from "axios";
-import { LoginResponse } from "../../../types/types";
+import { Music } from "../../../types/types";
 
 interface Props {
   token: string | undefined;
+  updateMusicList: (musicList: Music[]) => void;
 }
 
-export default function Header({ token }: Props) {
+export default function Header({ token, updateMusicList }: Props) {
   const [search, setSearch] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -18,26 +21,21 @@ export default function Header({ token }: Props) {
       "Search accessToken :",
       sessionStorage.responseData.accessToken
     );
-    const successLogin = await handleSearch(search);
+    handleSearch(search);
   };
 
   async function handleSearch(title: string) {
     try {
       console.log("Header Element token ---->  ", token);
-      const response = await axios.get<LoginResponse>(
-        `http://localhost:4000/api/music?search=${title}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
 
-      if (response.status !== 200) {
+      const response = await getMusic(title, token);
+      console.log("Get Music API :", response);
+      if (!response.data.length) {
         throw new Error("Error Seraching data.");
       }
 
       console.log("Searching Data :", response.data);
+      updateMusicList(response.data);
     } catch (e) {
       console.log("Error - Searching Song Title", e);
     }
@@ -61,7 +59,6 @@ export default function Header({ token }: Props) {
         </form>
         <button className="logout">Logout</button>
       </div>
-      <div>{search && "Hello"}</div>
     </div>
   );
 }

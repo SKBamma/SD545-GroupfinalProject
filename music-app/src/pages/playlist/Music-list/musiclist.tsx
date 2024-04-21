@@ -1,6 +1,12 @@
+import { AxiosResponse } from "axios";
+import { LoginResponse, Music } from "../../../types/types";
 import "./music-list.css";
-export default function Musiclist() {
-  console.log("Music");
+
+interface Props {
+  musicList: Music[];
+}
+
+export default function Musiclist({ musicList }: Props) {
   console.log("Music");
 
   return (
@@ -13,14 +19,16 @@ export default function Musiclist() {
           <td className="td-2">Release Date</td>
           <td className="td-1">Action</td>
         </tr>
-        <tr className="th">
-          <td className="td-1-bold">1</td>
-          <td className="td-2">Mocking Bird</td>
-          <td className="td-2">1989-1-2</td>
-          <td className="td-1">
-            <i className="fa-solid fa-plus"></i>
-          </td>
-        </tr>
+        {musicList.map((music, index) => (
+          <tr className="th" key={index}>
+            <td className="td-1-bold">{index + 1}</td>
+            <td className="td-2">{music.title}</td>
+            <td className="td-2">{music.releaseDate}</td>
+            <td className="td-1">
+              <i className="fa-solid fa-plus"></i>
+            </td>
+          </tr>
+        ))}
       </table>
     </div>
   );
