@@ -39,7 +39,7 @@ function Login() {
 
       const responseData = response.data;
       console.log(response.data);
-      sessionStorage.setItem("responseData", JSON.stringify(responseData));
+      sessionStorage.setItem("accessToken", responseData.accessToken);
       return true;
     } catch (error) {
       setErrorMessage("Wrong Credential!");

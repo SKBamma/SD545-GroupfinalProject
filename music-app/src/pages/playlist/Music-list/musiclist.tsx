@@ -20,7 +20,7 @@ export default function Musiclist({ musicList }: Props) {
           <td className="td-1">Action</td>
         </tr>
         {musicList.map((music, index) => (
-          <tr className="th" key={index}>
+          <tr className="th" key={music.id}>
             <td className="td-1-bold">{index + 1}</td>
             <td className="td-2">{music.title}</td>
             <td className="td-2">{music.releaseDate}</td>
