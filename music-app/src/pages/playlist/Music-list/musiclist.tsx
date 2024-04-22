@@ -1,9 +1,9 @@
-import { LoginResponse, Music, PlaylistType } from "../../../types/types";
+import { Music, MusicList } from "../../../types/types";
 import "./music-list.css";
 
 interface Props {
-  musicList: Music[];
-  onAddFavPlaylist: (muisc: Music) => void;
+  musicList: MusicList[];
+  onAddFavPlaylist: (muisc: MusicList) => void;
 }
 
 export default function Musiclist({ musicList, onAddFavPlaylist }: Props) {

@@ -10,14 +10,14 @@ export interface LoginCredentials {
   password: string;
 }
 
-export interface Music {
+export interface MusicList {
   id: string;
   urlPath: string;
   title: string;
   releaseDate: string;
 }
 
-export interface PlaylistType {
+export interface Music {
   id: string;
   userId: string;
   songId: string;

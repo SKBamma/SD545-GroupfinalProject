@@ -3,13 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { getMusic } from "../../../apis/services/music.service";
 import logo from "../../images/logo.jpeg";
-import { Music } from "../../../types/types";
-import './header.css';
-
+import { MusicList } from "../../../types/types";
+import "./header.css";
 
 interface Props {
   token: string | undefined;
-  updateMusicList: (musicList: Music[]) => void;
+  updateMusicList: (musicList: MusicList[]) => void;
 }
 
 export default function Header({ token, updateMusicList }: Props) {
@@ -48,7 +47,7 @@ export default function Header({ token, updateMusicList }: Props) {
   }
 
   const handleLogout = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -63,7 +62,9 @@ export default function Header({ token, updateMusicList }: Props) {
             onChange={handleSearchInput}
           />
         </form>
-        <button className="logout" onClick={handleLogout}>Logout</button>
+        <button className="logout" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </div>
   );

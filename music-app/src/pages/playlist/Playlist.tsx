@@ -6,7 +6,7 @@ import {
   useState,
   createContext,
 } from "react";
-import { LoginResponse, Music, PlaylistType } from "../../types/types";
+import { LoginResponse, MusicList, Music } from "../../types/types";
 
 import "./playlist.css";
 
@@ -15,11 +15,16 @@ import Musiclist from "./Music-list/musiclist";
 import MusicPlayer from "./Music-player/music.player";
 import FavoriteMusic from "./Favorites-music/favorite.music";
 import { getMusic } from "../../apis/services/music.service";
-import { addPlaylist, getPlaylist } from "../../apis/services/playlist.service";
+import {
+  addPlaylist,
+  getPlaylist,
+  removePlaylist,
+} from "../../apis/services/playlist.service";
 
 export default function Playlist() {
-  const [musicList, setMusicList] = useState<Music[]>([]);
-  const [favList, setFavList] = useState<PlaylistType[]>([]);
+  const [musicList, setMusicList] = useState<MusicList[]>([]);
+  const [favList, setFavList] = useState<Music[]>([]);
+  const [currentMusic, setCurrentMusic] = useState<Music | null>(null);
 
   async function getInitailMusicList(token: string) {
     try {
@@ -29,6 +34,17 @@ export default function Playlist() {
     } catch (e) {
       console.log(e);
       // throw new Error("Error getting initail Music.");
+    }
+  }
+
+  async function removeFavPlaylist(music: Music) {
+    try {
+      console.log("Removing Music", music);
+      const response = await removePlaylist(music.songId);
+      console.log(response.data);
+      setFavList(response.data);
+    } catch (e) {
+      console.log("Error Removing FavPlaylist:", e);
     }
   }
 
@@ -53,7 +69,7 @@ export default function Playlist() {
     }
   }
 
-  async function addFavPlaylist(music: Music) {
+  async function addFavPlaylist(music: MusicList) {
     try {
       const musicIndex = favList.findIndex(
         (muisc) => muisc.songId === music.id
@@ -85,6 +101,11 @@ export default function Playlist() {
     }
   }, []);
 
+  function handleCurrentMusic(music: Music) {
+    console.log(music);
+    setCurrentMusic(music);
+  }
+
   return (
     <div className="border-line">
       <Header
@@ -96,9 +117,17 @@ export default function Playlist() {
       <br />
       <Musiclist musicList={musicList} onAddFavPlaylist={addFavPlaylist} />
       <br />
-      <FavoriteMusic favList={favList} />
+      <FavoriteMusic
+        favList={favList}
+        onCurrentMusic={handleCurrentMusic}
+        onRemoveFavPlaylist={removeFavPlaylist}
+      />
       <br />
-      <MusicPlayer favList={favList} />
+      <MusicPlayer
+        favList={favList}
+        onCurrentMusic={handleCurrentMusic}
+        currentMusic={currentMusic}
+      />
     </div>
   );
 }

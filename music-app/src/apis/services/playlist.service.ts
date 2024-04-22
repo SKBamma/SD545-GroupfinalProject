@@ -17,10 +17,21 @@ export function getPlaylist(token: string | undefined) {
 }
 
 export function addPlaylist(songId: string) {
-  console.log("API : ", accessToken);
-  console.log("SongID : ", songId);
   return http.post(
     `/api/playlist/add`,
+    { songId: songId },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+}
+
+export function removePlaylist(songId: string) {
+  console.log("API remvoing :", songId);
+  return http.post(
+    `/api/playlist/remove`,
     { songId: songId },
     {
       headers: {

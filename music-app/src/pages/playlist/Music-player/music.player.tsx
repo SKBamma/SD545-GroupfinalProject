@@ -2,15 +2,22 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 
 import "./music.player.css";
-import { Music, PlaylistType } from "../../../types/types";
+import { Music } from "../../../types/types";
 
 interface Props {
-  favList: PlaylistType[];
+  favList: Music[];
+  currentMusic: Music | null;
+  onCurrentMusic: (muisc: Music) => void;
 }
-const URL = "http://localhost:4000/music/mocking_bird.mp3";
+const URL = "http://localhost:4000/";
 
-export default function MusicPlayer({ favList }: Props) {
+export default function MusicPlayer({
+  favList,
+  currentMusic,
+  onCurrentMusic,
+}: Props) {
   function handleNext() {
+    console.log("next");
     console.log("next");
   }
   function handlePrevious() {
@@ -24,10 +31,11 @@ export default function MusicPlayer({ favList }: Props) {
           <td>
             <AudioPlayer
               showSkipControls
-              // header={currentSong?.title}
-              src={`${URL}+`}
+              header={currentMusic?.title}
+              src={`${URL}${currentMusic?.urlPath}`}
               onClickNext={handleNext}
               onClickPrevious={handlePrevious}
+              hasDefaultKeyBindings={true}
               // onClickPrevious={handlePrevious}
 
               // other props here
