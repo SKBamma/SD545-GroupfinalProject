@@ -6,7 +6,7 @@ import {
   useState,
   createContext,
 } from "react";
-import { LoginResponse, Music } from "../../types/types";
+import { LoginResponse, Music, PlaylistType } from "../../types/types";
 
 import "./playlist.css";
 
@@ -15,11 +15,11 @@ import Musiclist from "./Music-list/musiclist";
 import MusicPlayer from "./Music-player/music.player";
 import FavoriteMusic from "./Favorites-music/favorite.music";
 import { getMusic } from "../../apis/services/music.service";
-import { getPlaylist } from "../../apis/services/playlist.service";
+import { addPlaylist, getPlaylist } from "../../apis/services/playlist.service";
 
 export default function Playlist() {
   const [musicList, setMusicList] = useState<Music[]>([]);
-  const [favList, setFavList] = useState<Music[]>([]);
+  const [favList, setFavList] = useState<PlaylistType[]>([]);
 
   async function getInitailMusicList(token: string) {
     try {
@@ -28,7 +28,7 @@ export default function Playlist() {
       setMusicList(res.data);
     } catch (e) {
       console.log(e);
-      throw new Error("Error getting initail Music.");
+      // throw new Error("Error getting initail Music.");
     }
   }
 
@@ -49,7 +49,24 @@ export default function Playlist() {
       setFavList(response.data);
     } catch (e) {
       console.log(e);
-      throw new Error("getFavPlaylist - Error getting Fav Music List.");
+      // throw new Error("getFavPlaylist - Error getting Fav Music List.");
+    }
+  }
+
+  async function addFavPlaylist(music: Music) {
+    try {
+      const musicIndex = favList.findIndex(
+        (muisc) => muisc.songId === music.id
+      );
+      if (musicIndex >= 0) {
+        console.log("Already in playlist.");
+        return;
+      }
+      const res = await addPlaylist(music.id);
+
+      setFavList(res.data);
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -77,11 +94,11 @@ export default function Playlist() {
       <br />
       <hr className="breakline" />
       <br />
-      <Musiclist musicList={musicList} />
+      <Musiclist musicList={musicList} onAddFavPlaylist={addFavPlaylist} />
       <br />
       <FavoriteMusic favList={favList} />
       <br />
-      <MusicPlayer />
+      <MusicPlayer favList={favList} />
     </div>
   );
 }

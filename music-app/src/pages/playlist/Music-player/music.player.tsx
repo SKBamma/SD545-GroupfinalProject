@@ -2,10 +2,19 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 
 import "./music.player.css";
+import { Music, PlaylistType } from "../../../types/types";
 
-export default function MusicPlayer() {
+interface Props {
+  favList: PlaylistType[];
+}
+const URL = "http://localhost:4000/music/mocking_bird.mp3";
+
+export default function MusicPlayer({ favList }: Props) {
   function handleNext() {
     console.log("next");
+  }
+  function handlePrevious() {
+    console.log("Previous");
   }
 
   return (
@@ -14,13 +23,14 @@ export default function MusicPlayer() {
         <tr className="tr-headers-playing">
           <td>
             <AudioPlayer
+              showSkipControls
               // header={currentSong?.title}
-              src="http://localhost:4000/music/mocking_bird.mp3"
+              src={`${URL}+`}
               onClickNext={handleNext}
-            // onClickPrevious={handlePrevious}
+              onClickPrevious={handlePrevious}
+              // onClickPrevious={handlePrevious}
 
-
-            // other props here
+              // other props here
             />
           </td>
         </tr>

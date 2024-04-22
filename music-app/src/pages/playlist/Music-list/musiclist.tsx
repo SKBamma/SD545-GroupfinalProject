@@ -1,12 +1,12 @@
-import { AxiosResponse } from "axios";
-import { LoginResponse, Music } from "../../../types/types";
+import { LoginResponse, Music, PlaylistType } from "../../../types/types";
 import "./music-list.css";
 
 interface Props {
   musicList: Music[];
+  onAddFavPlaylist: (muisc: Music) => void;
 }
 
-export default function Musiclist({ musicList }: Props) {
+export default function Musiclist({ musicList, onAddFavPlaylist }: Props) {
   console.log("Music");
 
   return (
@@ -25,7 +25,10 @@ export default function Musiclist({ musicList }: Props) {
             <td className="td-2">{music.title}</td>
             <td className="td-2">{music.releaseDate}</td>
             <td className="td-1">
-              <i className="fa-solid fa-plus"></i>
+              <i
+                className="fa-solid fa-plus"
+                onClick={() => onAddFavPlaylist(music)}
+              ></i>
             </td>
           </tr>
         ))}

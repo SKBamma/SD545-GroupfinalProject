@@ -12,6 +12,10 @@ since the password is hashed, you can use 'password' for every user.
 
 ## V 2.0.5 - Home Page.
 
+- Adding FavPlaylist.
+
+## V 2.0.5 - Home Page.
+
 - Updating Home Page.
 
 ## V 2.0.4 - Dynamic Favorites Music List component.

@@ -1,8 +1,8 @@
-import { Music } from "../../../types/types";
+import { Music, PlaylistType } from "../../../types/types";
 import "./favorites.css";
 
 interface Props {
-  favList: Music[];
+  favList: PlaylistType[];
 }
 
 export default function FavoriteMusic({ favList }: Props) {

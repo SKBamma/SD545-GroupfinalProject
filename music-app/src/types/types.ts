@@ -16,3 +16,12 @@ export interface Music {
   title: string;
   releaseDate: string;
 }
+
+export interface PlaylistType {
+  id: string;
+  userId: string;
+  songId: string;
+  orderId: number;
+  title: string;
+  urlPath: string;
+}
