@@ -17,8 +17,8 @@ export default function MusicPlayer() {
               // header={currentSong?.title}
               src="http://localhost:4000/music/mocking_bird.mp3"
               onClickNext={handleNext}
-              // onClickPrevious={handlePrevious}
-              src="http://localhost:4000//music/mocking_bird.mp3"
+            // onClickPrevious={handlePrevious}
+
 
             // other props here
             />
