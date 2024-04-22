@@ -10,9 +10,9 @@ export default function MusicPlayer() {
         <tr className="tr-headers-playing">
           <td>
             <AudioPlayer
-              src="http://localhost:4000/music/mocking_bird.mp3"
+              src="http://localhost:4000//music/mocking_bird.mp3"
 
-              // other props here
+            // other props here
             />
           </td>
         </tr>

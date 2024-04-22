@@ -1,10 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { getMusic } from "../../../apis/services/music.service";
-
 import logo from "../../images/logo.jpeg";
-import "./header.css";
 import { Music } from "../../../types/types";
+import './header.css';
+
 
 interface Props {
   token: string | undefined;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function Header({ token, updateMusicList }: Props) {
+  const navigate = useNavigate();
   const [search, setSearch] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -45,6 +47,10 @@ export default function Header({ token, updateMusicList }: Props) {
     setSearch(e.target.value);
   }
 
+  const handleLogout = () => {
+    navigate('/');
+  };
+
   return (
     <div>
       <div className="header">
@@ -57,7 +63,7 @@ export default function Header({ token, updateMusicList }: Props) {
             onChange={handleSearchInput}
           />
         </form>
-        <button className="logout">Logout</button>
+        <button className="logout" onClick={handleLogout}>Logout</button>
       </div>
     </div>
   );
