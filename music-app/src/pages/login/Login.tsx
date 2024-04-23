@@ -5,9 +5,13 @@ import { FaRegUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 
 import { LoginCredentials, LoginResponse } from "../../types/types";
-import './login.css';
+import "./login.css";
 
-function Login() {
+interface Props {
+  onHandleIsLoggedin: (condition: boolean) => void;
+}
+
+function Login({ onHandleIsLoggedin }: Props) {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,9 +29,12 @@ function Login() {
     e.preventDefault();
     console.log("Submit Req:", username, password);
     const successLogin = await login({ username, password });
-    if (successLogin) setLoginSuccess(successLogin);
-    setUsername('');
-    setPassword('');
+    if (successLogin) {
+      onHandleIsLoggedin(successLogin);
+      setLoginSuccess(successLogin);
+    }
+    setUsername("");
+    setPassword("");
   };
 
   async function login(credentials: LoginCredentials) {
@@ -55,20 +62,29 @@ function Login() {
 
   return (
     <>
-      <div className='wrapper'>
+      <div className="wrapper">
         <form onSubmit={handleSubmit}>
           <h1 className="text">Please Login</h1>
-          <div className='input-box'>
-            <input value={username} onChange={handleUsernameChange}
-              placeholder='Username' required />
+          <div className="input-box">
+            <input
+              value={username}
+              onChange={handleUsernameChange}
+              placeholder="Username"
+              required
+            />
             <FaRegUser className="icon" />
           </div>
-          <div className='input-box'>
-            <input type='password' value={password} onChange={handlePasswordChange}
-              placeholder='Password' required />
+          <div className="input-box">
+            <input
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="Password"
+              required
+            />
             <FaLock className="icon" />
           </div>
-          <button type="submit" >Login</button>
+          <button type="submit">Login</button>
           <div> {errorMessage && <div>{errorMessage}</div>}</div>
         </form>
         {loginSuccess && <Navigate to="/playlist" />}

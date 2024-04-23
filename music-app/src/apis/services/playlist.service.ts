@@ -17,6 +17,7 @@ export function getPlaylist(token: string | undefined) {
 }
 
 export function addPlaylist(songId: string) {
+  console.log(accessToken);
   return http.post(
     `/api/playlist/add`,
     { songId: songId },

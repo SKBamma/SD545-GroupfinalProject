@@ -1,5 +1,7 @@
 import http from "../axios";
 
+const accessToken = sessionStorage.getItem("accessToken");
+
 export function getMusic(title: string, token: string | undefined) {
   try {
     const response = http.get(`/api/music?search=${title}`, {

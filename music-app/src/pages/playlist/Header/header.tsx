@@ -9,26 +9,25 @@ import "./header.css";
 interface Props {
   token: string | undefined;
   updateMusicList: (musicList: MusicList[]) => void;
+  onHandleIsLoggedin: (condition: boolean) => void;
 }
 
-export default function Header({ token, updateMusicList }: Props) {
+export default function Header({
+  token,
+  updateMusicList,
+  onHandleIsLoggedin,
+}: Props) {
   const navigate = useNavigate();
   const [search, setSearch] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Searching :", search);
-    console.log(
-      "Search accessToken :",
-      sessionStorage.responseData.accessToken
-    );
     handleSearch(search);
   };
 
   async function handleSearch(title: string) {
     try {
-      console.log("Header Element token ---->  ", token);
-
       const response = await getMusic(title, token);
       console.log("Get Music API :", response);
       if (!response.data.length) {
@@ -47,6 +46,8 @@ export default function Header({ token, updateMusicList }: Props) {
   }
 
   const handleLogout = () => {
+    sessionStorage.clear();
+    onHandleIsLoggedin(false);
     navigate("/");
   };
 

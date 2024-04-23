@@ -1,12 +1,5 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useMemo,
-  useState,
-  createContext,
-} from "react";
-import { LoginResponse, MusicList, Music } from "../../types/types";
+import { useEffect, useState } from "react";
+import { MusicList, Music } from "../../types/types";
 
 import "./playlist.css";
 
@@ -20,8 +13,14 @@ import {
   getPlaylist,
   removePlaylist,
 } from "../../apis/services/playlist.service";
+import { Navigate } from "react-router-dom";
 
-export default function Playlist() {
+interface Props {
+  isLoggedin: boolean;
+  onHandleIsLoggedin: (condition: boolean) => void;
+}
+
+export default function Playlist({ onHandleIsLoggedin, isLoggedin }: Props) {
   const [musicList, setMusicList] = useState<MusicList[]>([]);
   const [favList, setFavList] = useState<Music[]>([]);
   const [currentMusic, setCurrentMusic] = useState<Music | null>(null);
@@ -33,7 +32,6 @@ export default function Playlist() {
       setMusicList(res.data);
     } catch (e) {
       console.log(e);
-      // throw new Error("Error getting initail Music.");
     }
   }
 
@@ -65,7 +63,6 @@ export default function Playlist() {
       setFavList(response.data);
     } catch (e) {
       console.log(e);
-      // throw new Error("getFavPlaylist - Error getting Fav Music List.");
     }
   }
 
@@ -79,7 +76,6 @@ export default function Playlist() {
         return;
       }
       const res = await addPlaylist(music.id);
-
       setFavList(res.data);
     } catch (e) {
       console.log(e);
@@ -108,9 +104,11 @@ export default function Playlist() {
 
   return (
     <div className="border-line">
+      {/* {isLoggedin ? null : <Navigate to="/login" />} */}
       <Header
         token={sessionStorage.accessToken}
         updateMusicList={setMusicList}
+        onHandleIsLoggedin={onHandleIsLoggedin}
       />
       <br />
       <hr className="breakline" />
