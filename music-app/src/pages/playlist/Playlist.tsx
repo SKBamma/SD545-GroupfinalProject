@@ -25,6 +25,21 @@ export default function Playlist({ onHandleIsLoggedin, isLoggedin }: Props) {
   const [favList, setFavList] = useState<Music[]>([]);
   const [currentMusic, setCurrentMusic] = useState<Music | null>(null);
 
+  useEffect(() => {
+    try {
+      const accessToken = sessionStorage.getItem("accessToken");
+      if (accessToken) {
+        console.log("Token is:", accessToken);
+
+        console.log("Inital music");
+        const initialMusicList = getInitailMusicList(accessToken);
+        setFavPlaylist();
+      }
+    } catch (error) {
+      console.error("Error parsing sessionStorage data:", error);
+    }
+  }, []);
+
   async function getInitailMusicList(token: string) {
     try {
       const res = await getMusic("", token);
@@ -81,21 +96,6 @@ export default function Playlist({ onHandleIsLoggedin, isLoggedin }: Props) {
       console.log(e);
     }
   }
-
-  useEffect(() => {
-    try {
-      const accessToken = sessionStorage.getItem("accessToken");
-      if (accessToken) {
-        console.log("Token is:", accessToken);
-
-        console.log("Inital music");
-        const initialMusicList = getInitailMusicList(accessToken);
-        setFavPlaylist();
-      }
-    } catch (error) {
-      console.error("Error parsing sessionStorage data:", error);
-    }
-  }, []);
 
   function handleCurrentMusic(music: Music) {
     console.log(music);
