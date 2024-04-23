@@ -13,7 +13,7 @@ import {
   getPlaylist,
   removePlaylist,
 } from "../../apis/services/playlist.service";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   isLoggedin: boolean;
@@ -23,11 +23,16 @@ interface Props {
 export default function Playlist({ onHandleIsLoggedin, isLoggedin }: Props) {
   const [musicList, setMusicList] = useState<MusicList[]>([]);
   const [favList, setFavList] = useState<Music[]>([]);
-  const [currentMusic, setCurrentMusic] = useState<Music | null>(null);
+  const [currentMusic, setCurrentMusic] = useState<Music>(favList[0]);
+
+  let accessToken: string | null = "";
+  const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("Is Logged in? ", isLoggedin);
+    if (!isLoggedin) navigate("/login");
     try {
-      const accessToken = sessionStorage.getItem("accessToken");
+      accessToken = sessionStorage.getItem("accessToken");
       if (accessToken) {
         console.log("Token is:", accessToken);
 
@@ -104,12 +109,12 @@ export default function Playlist({ onHandleIsLoggedin, isLoggedin }: Props) {
 
   return (
     <div className="border-line">
-      {/* {isLoggedin ? null : <Navigate to="/login" />} */}
       <Header
         token={sessionStorage.accessToken}
         updateMusicList={setMusicList}
         onHandleIsLoggedin={onHandleIsLoggedin}
       />
+      {accessToken}
       <br />
       <hr className="breakline" />
       <br />
